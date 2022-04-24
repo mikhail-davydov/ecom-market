@@ -1,6 +1,6 @@
 package com.mkhldvdv.ecommarket.controller;
 
-import com.mkhldvdv.ecommarket.aop.Throttling;
+import com.mkhldvdv.ecommarket.aspect.Throttling;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,4 +16,11 @@ public class Controller {
     public ResponseEntity<String> hello() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @GetMapping("/customThrottlingSettings")
+    @Throttling(requestCount = 1, retentionPeriodInMinutes = 1)
+    public ResponseEntity<String> customThrottlingSettings() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

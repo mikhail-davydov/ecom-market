@@ -1,23 +1,27 @@
 package com.mkhldvdv.ecommarket.config;
 
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
+import com.mkhldvdv.ecommarket.model.Pointer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 @Slf4j
 public class CacheConfig {
 
     @Bean
-    public Cache<String, String> cache(ThrottlingRequestsConfig throttlingRequestsConfig) {
-        log.info("Throttling Requests Settings: {}", throttlingRequestsConfig.getSettings());
-        return Caffeine.newBuilder()
-                .expireAfterWrite(throttlingRequestsConfig.getSettings().get("minutes"), TimeUnit.MINUTES)
-                .build();
+    public Map<String, List<Long>> cache(ThrottlingRequestsConfig throttlingRequestsConfig) {
+        log.debug("Global Throttling Requests Settings: {}", throttlingRequestsConfig.getSettings());
+        return new ConcurrentHashMap<>();
+    }
+
+    @Bean
+    public Map<String, Pointer> pointers() {
+        return new ConcurrentHashMap<>();
     }
 
 }
