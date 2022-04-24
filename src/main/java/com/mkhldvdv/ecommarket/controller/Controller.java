@@ -17,10 +17,14 @@ public class Controller {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/customThrottlingSettings")
-    @Throttling(requestCount = 1, retentionPeriodInMinutes = 1)
-    public ResponseEntity<String> customThrottlingSettings() {
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+// throttling settings below will also work
+// rewriting default settings from application.properties
+// for the method which the annotation is applied to
+
+//    @GetMapping("/customThrottlingSettings")
+//    @Throttling(requestCount = 1, retentionPeriodInMinutes = 1)
+//    public ResponseEntity<String> customThrottlingSettings() {
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
 }

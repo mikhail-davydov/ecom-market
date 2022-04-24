@@ -57,9 +57,7 @@ public class ThrottlingAspect {
             retention = (throttling.retentionPeriodInMinutes() > 0) ? throttling.retentionPeriodInMinutes() : retention;
         }
 
-        if (!isCacheKeyInitialized(cacheKey)) {
-            initializeCacheKey(cacheKey, capacity);
-        }
+        initializeCacheKeyIfAbsent(cacheKey, capacity);
 
         if (!isRequestAvailableToProceed(cacheKey, capacity, retention)) {
             String errorMessage = String.format(TOO_MANY_REQUESTS_ERROR_MESSAGE_TEMPLATE, remoteIP, cacheKey, capacity, retention);
@@ -110,13 +108,9 @@ public class ThrottlingAspect {
         return currentTime - oldest - retentionMillis > 0;
     }
 
-    private void initializeCacheKey(String cacheKey, int capacity) {
-        cache.put(cacheKey, Arrays.asList(new Long[capacity]));
-        pointers.put(cacheKey, new Pointer());
-    }
-
-    private boolean isCacheKeyInitialized(String cacheKey) {
-        return cache.containsKey(cacheKey);
+    private void initializeCacheKeyIfAbsent(String cacheKey, int capacity) {
+        cache.putIfAbsent(cacheKey, Arrays.asList(new Long[capacity]));
+        pointers.putIfAbsent(cacheKey, new Pointer());
     }
 
     private boolean customThrottlingSettingsExist(Throttling throttling) {
