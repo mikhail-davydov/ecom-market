@@ -42,8 +42,6 @@ public class ThrottlingAspect {
         String methodName = joinPoint.getSignature().getName();
         String cacheKey = String.format("%s/%s/%s", remoteIP, className, methodName);
 
-        log.debug("cacheKey: {}", cacheKey);
-
         int capacity = throttlingRequestsConfig.getSettings().get(REQUESTS_COUNT);
         int retention = throttlingRequestsConfig.getSettings().get(RETENTION_PERIOD_MINUTES);
 
