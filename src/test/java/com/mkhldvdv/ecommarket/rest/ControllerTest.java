@@ -1,4 +1,4 @@
-package com.mkhldvdv.ecommarket.controller;
+package com.mkhldvdv.ecommarket.rest;
 
 import com.mkhldvdv.ecommarket.config.ThrottlingRequestsConfig;
 import lombok.extern.slf4j.Slf4j;
